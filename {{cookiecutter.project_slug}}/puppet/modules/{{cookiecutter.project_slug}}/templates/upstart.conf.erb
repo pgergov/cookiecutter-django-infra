@@ -1,0 +1,41 @@
+description "{{cookiecutter.project_slug}} Application Server"
+
+start on started postgres
+stop on stopping postgres
+
+setuid <%= @user %>
+setgid <%= @user %>
+
+respawn# Choppend and screwed from puma's upstart jungle tool.
+
+description "{{cookiecutter.project_slug}} Application Server"
+
+start on started postgres
+stop on stopping postgres
+
+setuid <%= @user %>
+setgid <%= @user %>
+
+respawn
+respawn limit 3 30
+
+script
+    export LC_ALL=en_US.UTF8
+    # Read all the environment vars
+    eval $(cat <%= @application_root %>/shared/env.vars | sed 's/^/export /')
+    
+    PORT=8000
+    TIMEOUT=120
+    WORKERS=3
+    USER=<%= @user %>
+    GROUP=<%= @user %>
+    LOGFILE=<%= @application_root %>/shared/log/gunicorn.log
+    
+    cd <%= @application_root %>/current/
+    exec <%= @application_root %>/shared/virtualenv/bin/gunicorn \
+            -w $WORKERS -t $TIMEOUT \
+            --user=$USER --group=$GROUP \
+            --name=$NAME \
+            config.wsgi
+end script
+respawn limit 3 30

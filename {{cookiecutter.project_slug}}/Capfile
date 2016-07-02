@@ -1,0 +1,91 @@
+load "deploy"
+
+default_run_options[:pty] = true
+
+set :application, "puppet"
+
+# As long as we don't push all the cat photos in this repo, we can be good. I
+# like how I can slash and dice repos around with the copy strategy.
+set :scm, :none
+set :scm_verbose, true
+
+set :user, "root"
+set :use_sudo, false
+
+set :deploy_via, :copy
+set :deploy_to, "/#{user}/#{application}"
+set :copy_exclude, ".vagrant/*"
+
+set :public_children, []
+set :keep_releases, 5
+set :repository, "."
+
+before "deploy:update_code" do
+  run_locally "librarian-puppet install --verbose"
+end
+
+before :deploy, "deploy:setup"
+
+# The production machine
+task :{{cookiecutter.project_slug}}_production do
+  set :deploy_to, "/home/#{user}/#{application}"
+  server ENV.fetch("server", "{{cookiecutter.production_domain}}"), :app, primary: true
+
+  after 'deploy:setup' do
+    dirs  = [deploy_to, releases_path, shared_path]
+    dirs += shared_children.map { |d| File.join(shared_path, d.split('/').last) }
+
+    run "#{try_sudo} chown -hR #{user}:#{user} #{dirs.join(' ')}"
+  end
+
+  after "deploy:update_code" do
+    run "#{release_path}/script/bootstrap.sh"
+  end
+
+  after "deploy:create_symlink" do
+    run [
+      "FACTER_project_name_domain={{cookiecutter.production_domain}}",
+      "FACTER_${{cookiecutter.project_slug}}_env_filename=env.production.secret",
+
+      "puppet apply  #{current_path}/puppet/manifests/project_name.pp",
+      "--manifestdir #{current_path}/puppet/manifests",
+      "--modulepath  #{current_path}/puppet/modules:#{current_path}/puppet/vendor",
+      "--verbose"
+    ].join(" ")
+  end
+end
+
+# The staging machine
+task :{{cookiecutter.project_slug}}_staging do
+  set :deploy_to, "/home/#{user}/#{application}"
+  server ENV.fetch("server", "{{cookiecutter.staging_domain}}"), :app, primary: true
+
+  after 'deploy:setup' do
+    dirs  = [deploy_to, releases_path, shared_path]
+    dirs += shared_children.map { |d| File.join(shared_path, d.split('/').last) }
+
+    run "#{try_sudo} chown -hR #{user}:#{user} #{dirs.join(' ')}"
+  end
+
+  after "deploy:update_code" do
+    run "#{release_path}/script/bootstrap.sh"
+  end
+
+  after "deploy:create_symlink" do
+    run [
+      "FACTER_project_name_domain={{cookiecutter.staging_domain}}",
+      "FACTER_${{cookiecutter.project_slug}}_env_filename=env.staging.secret",
+
+      "puppet apply  #{current_path}/puppet/manifests/project_name.pp",
+      "--manifestdir #{current_path}/puppet/manifests",
+      "--modulepath  #{current_path}/puppet/modules:#{current_path}/puppet/vendor",
+      "--verbose"
+    ].join(" ")
+  end
+end
+
+
+namespace :deploy do
+  task :finalize_update do
+  end
+end

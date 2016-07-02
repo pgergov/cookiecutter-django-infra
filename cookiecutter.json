@@ -1,0 +1,9 @@
+{
+    "project_name": "Name of the project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+    "postgres_password": "",
+    "rabbitmq_password": "",
+    "django_secret_key": "",
+    "staging_domain": "",
+    "production_domain": ""
+}

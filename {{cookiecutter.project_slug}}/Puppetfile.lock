@@ -1,0 +1,39 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    danzilio-letsencrypt (1.0.0)
+      puppetlabs-inifile (< 2.0.0, >= 1.4.0)
+      puppetlabs-stdlib (< 5.0.0, >= 2.6.0)
+      puppetlabs-vcsrepo (< 2.0.0, >= 1.3.0)
+      stahnma-epel (< 2.0.0, >= 1.0.0)
+    jfryman-nginx (0.3.0)
+      puppetlabs-apt (< 3.0.0, >= 1.8.0)
+      puppetlabs-concat (< 3.0.0, >= 1.1.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
+    puppetlabs-apt (1.8.0)
+      puppetlabs-stdlib (>= 2.2.1)
+    puppetlabs-concat (1.2.5)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    puppetlabs-firewall (1.8.1)
+    puppetlabs-inifile (1.5.0)
+    puppetlabs-stdlib (4.12.0)
+    puppetlabs-vcsrepo (1.3.2)
+    stahnma-epel (1.2.2)
+      puppetlabs-stdlib (>= 3.0.0)
+
+GIT
+  remote: git@github.com:puppetlabs/puppetlabs-postgresql.git
+  ref: 3.4.1
+  sha: 79c4651240539b511862a2d5c75160169c78552a
+  specs:
+    puppetlabs-postgresql (3.4.1)
+      puppetlabs-apt (< 2.0.0, >= 1.1.0)
+      puppetlabs-concat (< 2.0.0, >= 1.0.0)
+      puppetlabs-firewall (>= 0.0.4)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+
+DEPENDENCIES
+  danzilio-letsencrypt (>= 0)
+  jfryman-nginx (>= 0)
+  puppetlabs-postgresql (>= 0)
+

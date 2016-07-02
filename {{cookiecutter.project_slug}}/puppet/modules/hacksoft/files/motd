@@ -1,0 +1,13 @@
+█         █
+██       ██
+███████████
+███████████
+█   ███   █
+█   ███   █
+███████████
+███████████
+
+This mashine is maintained ONLY BY PUPPET SCRIPTS. If you whant to make any configuration changes you must make them by editting the puppet code!
+
+Don't make any config changes via ssh!
+
