@@ -70,27 +70,27 @@ This will copy the Puppets over the wire to the machine and run the manifest fil
 
 ### Change the machine IP address or add a new machine
 
-We use Capistrano to take the puppet code to the server and run it. All Capistrano tasks are located the Capistrano file. If you want to add new machine just add a new task. !!LINK
+We use Capistrano to take the puppet code to the server and run it. All Capistrano tasks are located the Capistrano file. If you want to add new machine just add a new task.  [Look at the Capfile](/Capfile)
 
 ### Nginx configuration
 
-Maybe you want to change the nginx config? It is here. !!!link
+Maybe you want to change the nginx config? [It is here.](/puppet/modules/{{cookiecutter.project_slug}}/templates/nginx.conf.erb)
 
 ### SSH Keys
 
-Maybe you want to give someone access to the server? Look at this file !!!link
+Maybe you want to give someone access to the server? [Look at this file.](/puppet/modules/hacksoft/auth.pp)
 
 ### Django related changes
 
 #### Change some env vars
 
-All the env vars are located in this file !!Link
+There are two env configuration. One for your production server and one for your staging server. [The env files are located here.](/puppet/modules/vault/templates/{{cookiecutter.project_slug}})
 
 #### Change upstart configuration
 
 Maybe you have a powerfull server and want to change the number of gunicorn processes.
 
-Just look at the upstart job that keeps the django running.  !!!Link 
+Just look at the upstart job that keeps the django running. [It is here](/puppet/modules/{{cookiecutter.project_slug}}/templates/upstart.conf.erb)
 
 #### See sensible information
-All sensible informatin like passwords is located here !!!Link
+All sensible informatin like passwords for postgres and rabbitmq can be changed from [here.](/puppet/modules/vault/templates/{{cookiecutter.project_slug}})
