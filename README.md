@@ -11,7 +11,7 @@ Install `cookiecutter` command line: `pip install cookiecutter`
 
 Usage
 -----
-Generate a new Cookiecutter template layout: `cookiecutter gh:HackSoftware/cookiecutter-django-infra-`    
+Generate a new Cookiecutter template layout: `cookiecutter gh:HackSoftware/cookiecutter-django-infra`    
 
 License
 -------
